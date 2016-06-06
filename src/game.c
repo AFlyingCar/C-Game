@@ -136,9 +136,10 @@ int getNewKeyNum(SDL_Keycode sym){
 
 // Only need game so we can check for a QUIT call.
 int checkForInput(keypress_struct* array, int size,game_struct* game){
+    // TODO: make this method more efficient
     SDL_Event e;
     int i=0;
-    while(SDL_PollEvent(&e) != 0 || i < size){
+    while(SDL_PollEvent(&e) && i < size){
         if(e.type == SDL_QUIT){
             game->quit = 1;
             return 0;
@@ -160,10 +161,17 @@ SDL_Surface* loadBMPSurface(const char* path){
     return SDL_LoadBMP(path);
 }
 
+int fillSurface(SDL_Surface* surface,int color){
+    int r = color&0xFF0000;
+    int g = color&0x00FF00;
+    int b = color&0x0000FF;
+    return SDL_FillRect(surface,NULL,SDL_MapRGB(surface->format,r,g,b));
+}
+
 int preGameStart(game_struct* game){
     //game->quit = 1;
 
-    keypress_struct* keypresses = (keypress_struct*)malloc(1025);
+    keypress_struct keypresses[1024];
     if(checkForInput(keypresses,1025,game)) return 1;
 
     size_t i;
@@ -171,7 +179,8 @@ int preGameStart(game_struct* game){
         keypress_struct key = keypresses[i];
         switch(key.key){
             case ARROWL:
-                SDL_FillRect(game->window.surface,NULL,0xFF0000);
+                if(fillSurface(game->window.surface,0xFF0000)) error("Error when filling surface on ARROWL!");
+                break;
         }
     }
 
@@ -183,7 +192,12 @@ int postGameStart(game_struct* game){
 }
 
 int updateScreen(window_struct* window){
-    //SDL_UpdateWindowSurface(window->window);
+    SDL_UpdateWindowSurface(window->window);
+    return 0;
+}
+
+int tick(int fps){
+    SDL_Delay(1000*fps);
     return 0;
 }
 
@@ -192,8 +206,8 @@ int main(int argc, char** argv){
 
     game.game_started = 0;
     game.quit = 0;
-    game.bullets = (bullet_struct*)malloc(MAX_BULLETS+1); // Just as big as we can fucking make it
-    game.enemies = (enemy_struct*)malloc(MAX_ENEMIES+1); // Doesn't need to be as big, but you never know
+    game.bullets = malloc(MAX_BULLETS+1 * sizeof(bullet_struct*)); // Just as big as we can fucking make it
+    game.enemies = malloc(MAX_ENEMIES+1 * sizeof(enemy_struct*)); // Doesn't need to be as big, but you never know
 
     if(init(&game.window))
         error("Initialization failed!\n");
@@ -206,10 +220,10 @@ int main(int argc, char** argv){
             if(postGameStart(&game)) error("An error occurred in postGameStart(game_struct*)!");
         }
 
-        if(updateScreen(&game.window)) error("An error occurred in updateScreen(window_struct*)!");
+        if(updateScreen(&(game.window))) error("An error occurred in updateScreen(window_struct*)!");
     }
 
-    if(quit(&game)) return 1;
+    if(quit(&game)) error("An error occurred in quit!");
 
     return 0;
 }
