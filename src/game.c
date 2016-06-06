@@ -16,14 +16,14 @@
 
 enum KeyPresses{
     KEYFAIL=-1,
-    ARROWU,
+    ARROWU=0,
     ARROWD,
     ARROWL,
     ARROWR,
     PRIMARY,
     SECONDARY,
     SHIFT,
-    PAUSE,
+    PAUSE
 };
 
 typedef struct player_struct {
@@ -169,8 +169,6 @@ int fillSurface(SDL_Surface* surface,int color){
 }
 
 int preGameStart(game_struct* game){
-    //game->quit = 1;
-
     keypress_struct keypresses[1024];
     if(checkForInput(keypresses,1025,game)) return 1;
 
@@ -179,7 +177,9 @@ int preGameStart(game_struct* game){
         keypress_struct key = keypresses[i];
         switch(key.key){
             case ARROWL:
-                if(fillSurface(game->window.surface,0xFF0000)) error("Error when filling surface on ARROWL!");
+                // Try to fill the surface. This is for debugging purposes only
+                if(fillSurface(game->window.surface,0xFF0000))
+                    error("Error when filling surface on ARROWL!");
                 break;
         }
     }
