@@ -49,3 +49,41 @@ SDL_Surface* createBlankSurface(int w, int h){
     return SDL_CreateRGBSurface(0,w,h,8,RED_MASK,GREEN_MASK,BLUE_MASK,ALPHA_MASK);
 }
 
+int renderMenu(int type){
+    switch(type){
+        case START_MENU:
+            return renderStartMenu();
+        case CHARACTER_MENU:
+            return renderCharacterMenu();
+        case PAUSE_MENU:
+            return renderPauseMenu();
+        default:
+            error("Invalid menu id %d",type);
+    }
+}
+
+int renderStartMenu(){
+    SDL_Surface* menu;
+    renderButton(menu,"Begin",0,0);
+    return 0;
+}
+
+int renderCharacterMenu(){
+    return 0;
+}
+
+int renderPauseMenu(){
+    return 0;
+}
+
+int renderButton(SDL_Surface* surface,const char* text,int x,int y){
+}
+
+int renderGame(){
+    return 0;
+}
+
+void clearSurface(SDL_Surface* surface){
+    SDL_FillRect(surface,NULL,0x000000);
+}
+

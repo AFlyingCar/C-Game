@@ -15,5 +15,19 @@ int renderPlayer(player_struct*,window_struct*);
 
 int blit(SDL_Surface*,SDL_Surface*,int,int);
 
+int renderMenu(int);
+
+int renderStartMenu();
+
+int renderCharacterMenu();
+
+int renderPauseMenu();
+
+int renderButton(SDL_Surface*,const char*,int,int);
+
+int renderGame();
+
+void clearSurface(SDL_Surface*);
+
 #endif
 
