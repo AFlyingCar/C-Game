@@ -1,6 +1,7 @@
 #ifndef _STRUCTS_H_
 #define _STRUCTS_H_
 #include <SDL.h>
+#include "types.h"
 
 typedef struct player_struct {
     int posx;
@@ -16,6 +17,7 @@ typedef struct window_struct {
     int height;
     SDL_Window* window;
     SDL_Surface* surface;
+    SDL_Surface** loaded_surfaces;
 } window_struct;
 
 typedef struct bullet_struct {
@@ -56,6 +58,14 @@ typedef struct game_struct{
     int game_started;
     int quit;
 } game_struct;
+
+typedef struct image_struct{
+    SDL_Surface* surface;
+    int x;
+    int y;
+    float angle; // rotation
+    float size; // Size multiplier
+} Image;
 
 #endif
 
