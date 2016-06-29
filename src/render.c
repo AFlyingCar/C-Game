@@ -87,3 +87,11 @@ void clearSurface(SDL_Surface* surface){
     SDL_FillRect(surface,NULL,0x000000);
 }
 
+int renderImage(Image* from, Image* to, int x, int y){
+    return blit(from->surface,to->surface,x,y);
+}
+
+int renderSurface(SDL_Surface* from, Image* to, int x, int y){
+    return blit(from,to->surface,x,y);
+}
+
