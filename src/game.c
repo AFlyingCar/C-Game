@@ -2,38 +2,8 @@
 #include "src/struct.h"
 #include "src/enums.h"
 #include "src/render.h"
-
-#define error(MSG,...) \
-    { \
-        printf(MSG,##__VA_ARGS__); \
-        return 1; \
-    }
-
-#define POSX 0
-#define POSY 0
-#define WIDTH 640
-#define HEIGHT 480
-
-#define MAX_ENEMIES 1024
-#define MAX_BULLETS 16384
-
-// TODO: Change these when we've actually got sprites
-#define ENEMY_TYPES 1
-#define BULLET_TYPES 1
-#define PLAYER_TYPES 1
-
-int init(window_struct* window){
-    if(SDL_Init(SDL_INIT_VIDEO) < 0)
-        error("Failed to initialize!\n\tSDL_GetError()=%s\n",SDL_GetError());
-
-    if((window->window = SDL_CreateWindow("game",POSX,POSY,WIDTH,HEIGHT,SDL_WINDOW_SHOWN)) == NULL)
-        error("Failed to create window!\n\tSDL_GetError()=%s\n",SDL_GetError());
-
-    if((window->surface = SDL_GetWindowSurface(window->window)) == NULL)
-        error("Failed to get window surface!\n\tSDL_GetError()=%s\n",SDL_GetError());
-
-    return 0;
-}
+#include "src/constants.h"
+#include "src/init.h"
 
 int quit(game_struct* game){
     SDL_DestroyWindow(game->window.window);
