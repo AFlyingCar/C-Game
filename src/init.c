@@ -40,5 +40,6 @@ int loadAllSurfaces(window_struct* window){
         if(window->loaded_surfaces[i] == NULL)
             error("Failed to load %s",SURFACE_NAMES[i]);
     }
+    return 0;
 }
 
