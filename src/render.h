@@ -15,7 +15,7 @@ int renderPlayer(player_struct*,window_struct*);
 
 int blit(SDL_Surface*,SDL_Surface*,int,int);
 int renderImage(Image*,Image*,int,int);
-int renderImage(SDL_Surface*,Image*,int,int);
+int renderSurface(SDL_Surface*,Image*,int,int);
 
 int renderMenu(int);
 
